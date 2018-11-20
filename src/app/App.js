@@ -1,11 +1,13 @@
 import React from 'react';
+import { Grid, Icon, Container } from 'semantic-ui-react';
+import './App.css';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <section class="App">
-        <h1>Hello World!!</h1>
-      </section>
-    )
-  };
+const App = (props) => {
+  return (
+    <section className="App">
+      <h1 className="App__title">Todo List</h1>
+    </section>
+  );
 };
+
+export default App;
