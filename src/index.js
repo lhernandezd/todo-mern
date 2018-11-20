@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path'); //Unir directorios
+const { mongoose } = require('./database');
 const app = express();
 
 //Settings
