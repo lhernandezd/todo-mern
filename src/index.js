@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path'); //Unir directorios
 const app = express();
 
 //Settings
@@ -11,6 +12,7 @@ app.use('/api/tasks', require('./routes/task'));
 //Routes
 
 //Statics
+app.use(express.static(path.join(__dirname, 'public'))); //Ruta donde se encontraran los archivos estaticos.
 
 //Start server
 app.listen(app.get('port'), () => {
