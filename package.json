@@ -18,7 +18,8 @@
     "express": "^4.16.4",
     "mongoose": "^5.3.12",
     "react": "^16.6.3",
-    "react-dom": "^16.6.3"
+    "react-dom": "^16.6.3",
+    "semantic-ui-react": "^0.83.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
