@@ -8,39 +8,21 @@ export default class Todos extends React.Component {
     super(props);
 
     this.state = {
-      tasks: [
-        {
-          title: 'Task 1',
-          description: 'The first test task',
-          completed: false,
-          date: Date()
-        },
-        {
-          title: 'Task 2',
-          description: 'The second test task',
-          completed: true,
-          date: Date()
-        },
-        {
-          title: 'Task 2',
-          description: 'The second test task',
-          completed: true,
-          date: Date()
-        },
-        {
-          title: 'Task 2',
-          description: 'The second test task',
-          completed: true,
-          date: Date()
-        },
-        {
-          title: 'Task 1',
-          description: 'The first test task',
-          completed: false,
-          date: Date()
-        }
-      ]
+      tasks: []
     };
+  }
+
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData() {
+    fetch('/api/tasks')
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        this.setState({ tasks: data })
+      })
   }
 
   render() {
@@ -55,7 +37,7 @@ export default class Todos extends React.Component {
                 title={task.title}
                 description={task.description}
                 completed={task.completed}
-                date={task.date}
+                date={task.updatedAt.substring(0, 10)}
               />
             )}
           </Card.Group>
