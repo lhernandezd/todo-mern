@@ -7,14 +7,14 @@ export default class TodoForm extends React.Component {
       <section className="todoForm">
         <Card>
           <Card.Content>
-            <Form size='large'>
+            <Form onSubmit={this.props.handleUpdate} size='large'>
               <Form.Field>
                 <label>Title</label>
-                <input placeholder={this.props.title} name='title' />
+                <input onChange={this.props.handleChange} placeholder={this.props.title} name='title' />
               </Form.Field>
               <Form.Field>
                 <label>Description</label>
-                <input placeholder={this.props.description} name='description' />
+                <input onChange={this.props.handleChange} placeholder={this.props.description} name='description' />
               </Form.Field>
               <div className='ui two buttons'>
                 <Button type='submit' basic fluid color='blue'>Update</Button>

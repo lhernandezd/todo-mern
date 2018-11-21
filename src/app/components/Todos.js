@@ -7,7 +7,6 @@ import TodoForm from './TodoForm';
 export default class Todos extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
 
     this.state = {
       tasks: []
@@ -38,7 +37,6 @@ export default class Todos extends React.Component {
 
   handleClick(id, e) {
     const card = e.target;
-    console.log(card);
     const tasks = this.state.tasks.map(task => {
       if (task._id === id) {
         return {
@@ -56,7 +54,6 @@ export default class Todos extends React.Component {
   }
 
   editTask(id, e) {
-    console.log(e.target)
     const tasks = this.state.tasks.map(task => {
       if (task._id === id) {
         return {
@@ -71,6 +68,68 @@ export default class Todos extends React.Component {
     this.setState({
       tasks: tasks
     });
+  }
+
+  updateTask(id, e) {
+    e.preventDefault();
+
+    const tasks = this.state.tasks.map(task => {
+      if (task._id === id) {
+        return {
+          ...task,
+          title: task.formTitle,
+          description: task.formDescription,
+          edit: false
+        }
+      } else {
+        return task
+      }
+    });
+
+    this.setState({
+      tasks: tasks
+    });
+
+    let specificTask;
+    tasks.forEach(task => {
+      if (task._id === id) {
+        specificTask = task
+      }
+    })
+
+    fetch(`/api/tasks/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(specificTask),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(err => console.error(err))
+  }
+
+  changeProperties(id, e) {
+    const tasks = this.state.tasks.map(task => {
+      if (task._id === id && e.target.name === 'title') {
+        return {
+          ...task,
+          formTitle: e.target.value
+        }
+      } else if (task._id === id && e.target.name === 'description') {
+        return {
+          ...task,
+          formDescription: e.target.value
+        }
+      } else {
+        return task
+      }
+    })
+
+    this.setState({
+      tasks: tasks
+    })
   }
 
   render() {
@@ -96,6 +155,8 @@ export default class Todos extends React.Component {
                   description={task.description}
                   completed={task.completed}
                   date={task.updatedAt.substring(0, 10)}
+                  handleChange={(e) => this.changeProperties(task._id, e)}
+                  handleUpdate={(e) => this.updateTask(task._id, e)}
                 />
             )}
           </Card.Group>
