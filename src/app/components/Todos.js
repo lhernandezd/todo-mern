@@ -35,6 +35,27 @@ export default class Todos extends React.Component {
       })
   }
 
+  fetchPut(tasks, id) {
+    let specificTask;
+    tasks.forEach(task => {
+      if (task._id === id) {
+        specificTask = task
+      }
+    })
+
+    fetch(`/api/tasks/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(specificTask),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(err => console.error(err))
+  }
+
   handleClick(id, e) {
     const card = e.target;
     const tasks = this.state.tasks.map(task => {
@@ -51,6 +72,8 @@ export default class Todos extends React.Component {
     this.setState({
       tasks: tasks
     })
+
+    this.fetchPut(tasks, id);
   }
 
   editTask(id, e) {
@@ -90,24 +113,7 @@ export default class Todos extends React.Component {
       tasks: tasks
     });
 
-    let specificTask;
-    tasks.forEach(task => {
-      if (task._id === id) {
-        specificTask = task
-      }
-    })
-
-    fetch(`/api/tasks/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify(specificTask),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(err => console.error(err))
+    this.fetchPut(tasks, id);
   }
 
   changeProperties(id, e) {
