@@ -6,6 +6,7 @@ import TodoCard from './TodoCard';
 export default class Todos extends React.Component {
   constructor(props) {
     super(props);
+    this.handleClick = this.handleClick.bind(this);
 
     this.state = {
       tasks: []
@@ -25,6 +26,25 @@ export default class Todos extends React.Component {
       })
   }
 
+  handleClick(id, e) {
+    const card = e.currentTarget;
+    console.log(card);
+    const tasks = this.state.tasks.map(task => {
+      if (task._id === id) {
+        return {
+          ...task,
+          completed: !task.completed
+        }
+      } else {
+        return task
+      }
+    });
+
+    this.setState({
+      tasks: tasks
+    })
+  }
+
   render() {
     return (
       <section className="todos">
@@ -38,6 +58,7 @@ export default class Todos extends React.Component {
                 description={task.description}
                 completed={task.completed}
                 date={task.updatedAt.substring(0, 10)}
+                handleClick={(e) => this.handleClick(task._id, e)}
               />
             )}
           </Card.Group>

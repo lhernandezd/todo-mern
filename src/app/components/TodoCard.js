@@ -4,7 +4,7 @@ import { Grid, Icon, Card } from 'semantic-ui-react';
 export default class TodoCard extends React.Component {
   render() {
     return (
-      <Card className="todoCard" style={this.props.completed ? { border: '1px solid green' } : { border: '1px solid #9f3a38' }}>
+      <Card onClick={this.props.handleClick} className="todoCard" style={this.props.completed ? { border: '1px solid green' } : { border: '1px solid #9f3a38' }}>
         <Card.Content>
           <Card.Header textAlign='left'>{this.props.title}</Card.Header>
           <Card.Meta textAlign='left'>{this.props.date}</Card.Meta>
