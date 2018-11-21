@@ -1,11 +1,13 @@
 import React from 'react';
-import { Grid, Icon, Container, Button, Table, Card } from 'semantic-ui-react';
+import { Container } from 'semantic-ui-react';
+import Menu from './Menu';
 import TodoCard from './TodoCard';
 
 export default class Todos extends React.Component {
   render() {
     return (
-      <Container className="container">
+      <Container className="todos">
+        <Menu />
       </Container>
     )
   };

@@ -1,0 +1,25 @@
+.menu {
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu__info {
+  width: 20%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info__text--completed {
+  padding: 10px;
+  border: 1px solid green;
+  border-radius: 5px;
+  color: green;
+}
+
+.info__text--incompleted {
+  padding: 10px;
+  border: 1px solid #9f3a38;
+  border-radius: 5px;
+  color: #9f3a38;
+}
