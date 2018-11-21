@@ -7,7 +7,7 @@ export default class Menu extends React.Component {
     return (
       <div className="menu">
         <div className="menu__item">
-          <Button size="large" animated="fade">
+          <Button basic color="black" size="large" animated="fade">
             <Button.Content visible>Add task</Button.Content>
             <Button.Content hidden> <Icon name="add" /> </Button.Content>
           </Button>
