@@ -9,6 +9,8 @@ export default class Todos extends React.Component {
     super(props);
 
     this.state = {
+      modalTitle: '',
+      modalDescription: '',
       tasks: []
     };
   }
@@ -138,11 +140,46 @@ export default class Todos extends React.Component {
     })
   }
 
+  addTask(e) {
+    e.preventDefault();
+
+    const title = this.state.modalTitle;
+    const description = this.state.modalDescription;
+
+    console.log({ title, description })
+
+    fetch('/api/tasks', {
+      method: 'POST',
+      body: JSON.stringify({ title, description }),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(err => console.error(err))
+
+    this.fetchData();
+  }
+
+  changeState(e) {
+    if (e.target.name === 'modalTitle') {
+      this.setState({
+        modalTitle: e.target.value
+      })
+    } else if (e.target.name === 'modalDescription') {
+      this.setState({
+        modalDescription: e.target.value
+      })
+    }
+  }
+
   render() {
     return (
       <section className="todos">
         <Container>
-          <Menu />
+          <Menu handleAdd={(e) => this.addTask(e)} handleChange={(e) => this.changeState(e)} />
           <Card.Group className="todoList" centered itemsPerRow={3}>
             {this.state.tasks.map((task, index) =>
               !task.edit ?
