@@ -13,7 +13,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { title, description, completed } = req.body;
+  const { title, description, completed, ...others } = req.body;
   const task = new Task({
     title,
     description,

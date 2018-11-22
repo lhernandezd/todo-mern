@@ -160,7 +160,6 @@ export default class Todos extends React.Component {
                   title={task.title}
                   description={task.description}
                   completed={task.completed}
-                  date={task.updatedAt.substring(0, 10)}
                   handleChange={(e) => this.changeProperties(task._id, e)}
                   handleUpdate={(e) => this.updateTask(task._id, e)}
                 />
