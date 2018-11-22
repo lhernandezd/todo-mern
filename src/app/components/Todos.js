@@ -175,6 +175,29 @@ export default class Todos extends React.Component {
     }
   }
 
+  fetchDelete(id) {
+    fetch(`/api/tasks/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(err => console.error(err))
+  }
+
+  deleteTask(id) {
+    const tasks = this.state.tasks.filter(task => task._id !== id);
+    console.log(tasks)
+    this.setState({
+      tasks: tasks
+    });
+
+    this.fetchDelete(id);
+  }
+
   render() {
     return (
       <section className="todos">
@@ -191,6 +214,7 @@ export default class Todos extends React.Component {
                   date={task.updatedAt.substring(0, 10)}
                   handleClick={(e) => this.handleClick(task._id, e)}
                   handleEdit={(e) => this.editTask(task._id, e)}
+                  handleDelete={() => this.deleteTask(task._id)}
                 /> :
                 <TodoForm
                   key={index}

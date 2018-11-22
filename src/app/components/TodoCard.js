@@ -12,7 +12,7 @@ export default class TodoCard extends React.Component {
           <Card.Description textAlign='right'>
             <Icon link name='selected radio' onClick={this.props.handleClick} />
             <Icon link name='edit' onClick={this.props.handleEdit} />
-            <Icon link name='trash alternate' />
+            <Icon link name='trash alternate' onClick={this.props.handleDelete} />
           </Card.Description>
         </Card.Content>
       </Card>
