@@ -9,6 +9,7 @@ export default class Todos extends React.Component {
     super(props);
 
     this.state = {
+      modalOpen: false,
       modalTitle: '',
       modalDescription: '',
       tasks: []
@@ -28,8 +29,8 @@ export default class Todos extends React.Component {
           return {
             ...item,
             edit: false,
-            formTitle: '',
-            formDescription: ''
+            formTitle: item.title,
+            formDescription: item.description
           }
         });
         console.log(newData)
@@ -143,6 +144,7 @@ export default class Todos extends React.Component {
   addTask(e) {
     e.preventDefault();
 
+    this.switchModal();//Cierro el modal
     const title = this.state.modalTitle;
     const description = this.state.modalDescription;
 
@@ -198,11 +200,23 @@ export default class Todos extends React.Component {
     this.fetchDelete(id);
   }
 
+  switchModal() {
+    console.log('funciono');
+    this.setState({
+      modalOpen: !this.state.modalOpen
+    })
+  }
+
   render() {
     return (
       <section className="todos">
         <Container>
-          <Menu handleAdd={(e) => this.addTask(e)} handleChange={(e) => this.changeState(e)} />
+          <Menu
+            handleAdd={(e) => this.addTask(e)}
+            handleChange={(e) => this.changeState(e)}
+            modalOpen={this.state.modalOpen}
+            switchModal={() => this.switchModal()}
+          />
           <Card.Group className="todoList" centered itemsPerRow={3}>
             {this.state.tasks.map((task, index) =>
               !task.edit ?

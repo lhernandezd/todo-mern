@@ -7,7 +7,7 @@ export default class TodoCard extends React.Component {
       <Card className="todoCard" style={this.props.completed ? { border: '1px solid green' } : { border: '1px solid #9f3a38' }}>
         <Card.Content>
           <Card.Header textAlign='left'>{this.props.title}</Card.Header>
-          <Card.Meta textAlign='left'>{this.props.date}</Card.Meta>
+          <Card.Meta textAlign='left'>Last update: {this.props.date}</Card.Meta>
           <Card.Description > {this.props.description} </Card.Description>
           <Card.Description textAlign='right'>
             <Icon link name='selected radio' onClick={this.props.handleClick} />

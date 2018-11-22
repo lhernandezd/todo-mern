@@ -4,7 +4,7 @@ import { Form, Card, Button } from 'semantic-ui-react';
 export default class TodoForm extends React.Component {
   render() {
     return (
-      <section className="todoForm">
+      <section className="todoForm" style={{ margin: '14px' }}>
         <Card>
           <Card.Content>
             <Form onSubmit={this.props.handleUpdate} size='large'>

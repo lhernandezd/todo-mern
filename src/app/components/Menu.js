@@ -5,7 +5,7 @@ import { Button, Icon, Modal, Header, Form } from 'semantic-ui-react';
 export default class Menu extends React.Component {
   render() {
     const button = (
-      <Button basic color='black' size='large' animated='fade'>
+      <Button basic color='black' size='large' animated='fade' onClick={this.props.switchModal}>
         <Button.Content visible>Add task</Button.Content>
         <Button.Content hidden> <Icon name='add' /> </Button.Content>
       </Button>
@@ -13,10 +13,10 @@ export default class Menu extends React.Component {
     return (
       <div className='menu'>
         <div className='menu__item'>
-          <Modal onSubmit={this.props.handleAdd} trigger={button} closeIcon>
+          <Modal trigger={button} open={this.props.modalOpen} closeIcon onClose={this.props.switchModal}>
             <Header icon='plus' content='Add Task' />
             <Modal.Content>
-              <Form size='large' className='modalForm'>
+              <Form size='large' className='modalForm' onSubmit={this.props.handleAdd}>
                 <Form.Field>
                   <label>Title</label>
                   <input name='modalTitle' onChange={this.props.handleChange} />
