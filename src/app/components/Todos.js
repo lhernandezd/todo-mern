@@ -143,26 +143,32 @@ export default class Todos extends React.Component {
 
   addTask(e) {
     e.preventDefault();
-
-    this.switchModal();//Cierro el modal
     const title = this.state.modalTitle;
     const description = this.state.modalDescription;
+    const formMessage = document.getElementById('formMessage');
+    const modalInput = document.getElementById('modalInput');
 
-    console.log({ title, description })
+    if (title === '') {
+      modalInput.style.border = '1px solid #9f3a38';
+      formMessage.classList.remove('hide');
+    } else {
+      console.log({ title, description })
+      this.switchModal();//Cierro el modal
 
-    fetch('/api/tasks', {
-      method: 'POST',
-      body: JSON.stringify({ title, description }),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(err => console.error(err))
+      fetch('/api/tasks', {
+        method: 'POST',
+        body: JSON.stringify({ title, description }),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.error(err))
 
-    this.fetchData();
+      this.fetchData();
+    }
   }
 
   changeState(e) {
@@ -203,7 +209,9 @@ export default class Todos extends React.Component {
   switchModal() {
     console.log('funciono');
     this.setState({
-      modalOpen: !this.state.modalOpen
+      modalOpen: !this.state.modalOpen,
+      modalTitle: '',
+      modalDescription: ''
     })
   }
 

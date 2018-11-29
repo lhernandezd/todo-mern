@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/Menu.css';
-import { Button, Icon, Modal, Header, Form } from 'semantic-ui-react';
+import { Button, Icon, Modal, Header, Form, Message } from 'semantic-ui-react';
 
 const Menu = (props) => {
   const button = (
@@ -17,13 +17,21 @@ const Menu = (props) => {
           <Header icon='plus' content='Add Task' />
           <Modal.Content>
             <Form size='large' className='modalForm' onSubmit={props.handleAdd}>
+              <Form.Field id='formMessage' className='hide'>
+                <Message size='tiny' negative>
+                  <Message.Header>Oops!! There was some errors with your submission </Message.Header>
+                  <Message.List>
+                    <Message.Item>Title Required</Message.Item>
+                  </Message.List>
+                </Message>
+              </Form.Field>
               <Form.Field>
                 <label>Title</label>
-                <input name='modalTitle' onChange={props.handleChange} />
+                <input id='modalInput' name='modalTitle' onChange={props.handleChange} />
               </Form.Field>
               <Form.Field>
                 <label>Description</label>
-                <input name='modalDescription' onChange={props.handleChange} />
+                <input name='modalDescription' onChange={props.handleChange} placeholder='Optional' />
               </Form.Field>
               <Button type='submit' basic fluid color='green'>Create</Button>
             </Form>
