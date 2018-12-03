@@ -1,10 +1,11 @@
 const express = require('express');
 const path = require('path'); //Unir directorios
-const { mongoose } = require('./database');
+const config = require('./server/config/index');
+const { mongoose } = require('./server/database');
 const app = express();
 
 //Settings
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || config.server.port);
 
 //Middlewares
 app.use(express.json()); //Para que el servidor compruebe si el dato es en formato json.
