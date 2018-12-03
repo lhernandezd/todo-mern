@@ -13,7 +13,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { title, description, completed } = req.body;
+  const { title, description, completed, ...others } = req.body;
   const task = new Task({
     title,
     description,
@@ -25,10 +25,10 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-  const { title, description, completed } = req.body;
+  const { title, description, completed, ...others } = req.body;
   await Task.findByIdAndUpdate({ _id: req.params.id }, { title, description, completed });
 
-  res.json({ message: 'Task updated' });
+  res.json({ message: 'Task updated', dt: req.body });
 });
 
 router.delete('/:id', async (req, res) => {
