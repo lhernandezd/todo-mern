@@ -2,6 +2,9 @@
   "name": "mern-todo",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": "10.6.0"
+  },
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node src/index.js",
