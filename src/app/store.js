@@ -1,11 +1,12 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
 //import the root reducer
-import rootReducer from './reducers/index';
+import tasks from './reducers/tasks';
 
 //create an object for the default data
-const defaultState = {};
+const defaultState = { tasks: [] };
 
-const store = createStore(rootReducer, defaultState);
+const store = createStore(tasks, defaultState, applyMiddleware(thunk));
 
 export default store;
