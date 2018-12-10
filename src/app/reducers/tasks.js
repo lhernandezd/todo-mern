@@ -5,21 +5,33 @@ function tasks(state = [], action) {
       const task = {
         title: action.title,
         description: action.description,
-        edit: false,
-        formTitle: action.title,
-        formDescription: action.description
+        completed: false
       }
       return [
         ...state,
         task
       ];
 
-    case 'UPDATE_TASK':
-      const tasks = state.tasks.map(todo => {
-        if (todo._id === action.id) {
+    case 'COMPLETE_TODO':
+      const tasks = state.tasks.map(task => {
+        if (task._id === action.id) {
           return {
             ...task,
-            edit: true
+            completed: !action.completed
+          }
+        } else {
+          return task
+        }
+      });
+
+    case 'UPDATE_TASK':
+      const tasks = state.tasks.map(task => {
+        if (task._id === action.id) {
+          return {
+            ...task,
+            title: action.title,
+            description: action.description,
+            //edit: false
           }
         } else {
           return task
@@ -27,11 +39,12 @@ function tasks(state = [], action) {
       });
       return tasks;
 
+
     case 'REMOVE_TASK':
       const tasks = state.tasks.filter(task => task._id !== action.id);
       return tasks;
 
-    case 'REPLACE_TASKS':
+    case 'LOAD_TASKS':
       return [
         ...state,
         ...action.tasks
