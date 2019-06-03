@@ -1,5 +1,5 @@
 //Add todo
-function addTodo(title, description) {
+export function addTodo(title, description) {
   return dispatch => {
     return fetch('/api/tasks', {
       method: 'POST',
@@ -14,44 +14,19 @@ function addTodo(title, description) {
         console.log(data)
         dispatch({
           type: 'ADD_TASK',
-          title,
-          description
+          payload: data.dt
         })
       })
       .catch(err => console.error(err))
-  }
-}
-
-//Complete todo
-function completeTodo(title, description, completed, id) {
-  return dispatch => {
-    return fetch(`/api/tasks/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify({ title, description, completed }),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        dispatch({
-          type: 'COMPLETE_TASK',
-          completed,
-          id
-        })
-      })
-      .catch(err => console.error(err))
-  }
-}
+  };
+};
 
 //Update todo
-function updateTodo(title, description, id) {
+export function updateTodo(task, id) {
   return dispatch => {
     return fetch(`/api/tasks/${id}`, {
       method: 'PUT',
-      body: JSON.stringify({ title, description, completed: false }),
+      body: JSON.stringify(task),
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -62,17 +37,15 @@ function updateTodo(title, description, id) {
         console.log(data)
         dispatch({
           type: 'UPDATE_TASK',
-          title,
-          description,
-          id
+          payload: data.dt
         })
       })
       .catch(err => console.error(err))
-  }
-}
+  };
+};
 
 //Delete todo
-function removeTodo(id) {
+export function removeTodo(id) {
   return dispatch => {
     return fetch(`/api/tasks/${id}`, {
       method: 'DELETE',
@@ -86,32 +59,29 @@ function removeTodo(id) {
         console.log(data)
         dispatch({
           type: 'REMOVE_TASK',
-          id
+          payload: id
         })
       })
       .catch(err => console.error(err))
-  }
-}
+  };
+};
 
-//Replace data
-function loadTasks() {
-  return dispatch => {
-    return fetch('/api/tasks')
+//Load data
+export function loadTodos() {
+  return async (dispatch) => {
+    await fetch('/api/tasks')
       .then(res => res.json())
       .then(data => {
         const newData = data.map(item => {
           return {
             ...item,
-            edit: false,
             formTitle: item.title,
             formDescription: item.description
           }
         });
+        dispatch({ type: 'LOAD_TASKS', tasks: newData })
         console.log(newData)
-        dispatch({
-          type: 'LOAD_TASKS',
-          tasks: newData
-        })
       })
-  }
-}
+      .catch(err => console.error(err))
+  };
+};

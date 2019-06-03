@@ -44,7 +44,7 @@ const Menu = (props) => {
         <span className='info__text--incompleted'>Incompleted</span>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Menu;
