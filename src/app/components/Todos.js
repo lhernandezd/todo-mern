@@ -3,8 +3,25 @@ import { Container, Card } from 'semantic-ui-react';
 import Menu from './Menu';
 import TodoCard from './TodoCard';
 import TodoForm from './TodoForm';
+import { connect } from 'react-redux';
+import { loadTodos, updateTodo, addTodo, removeTodo } from '../actions/actionCreators';
 
-export default class Todos extends React.Component {
+function mapStateToProps(state) {
+  return {
+    tasks: state.tasks
+  };
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    loadTodos: () => dispatch(loadTodos()),
+    updateTodo: (task, id) => dispatch(updateTodo(task, id)),
+    addTodo: (title, description) => dispatch(addTodo(title, description)),
+    removeTodo: (id) => dispatch(removeTodo(id))
+  };
+};
+
+class Todos extends React.Component {
   constructor(props) {
     super(props);
 
@@ -14,50 +31,54 @@ export default class Todos extends React.Component {
       modalDescription: '',
       tasks: []
     };
-  }
+  };
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      tasks: nextProps.tasks
+    });
+  };
 
   componentDidMount() {
-    this.fetchData();
-  }
+    this.fetchGetWithAction();
+  };
 
-  fetchData() {
-    fetch('/api/tasks')
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        const newData = data.map(item => {
-          return {
-            ...item,
-            edit: false,
-            formTitle: item.title,
-            formDescription: item.description
-          }
-        });
-        console.log(newData)
-        this.setState({ tasks: newData })
-      })
-  }
+  async fetchGetWithAction() {
+    await this.props.loadTodos();
+    this.setState({
+      tasks: this.props.tasks
+    });
+  };
 
-  fetchPut(tasks, id) {
+  async fetchPut(tasks, id) {
     let specificTask;
     tasks.forEach(task => {
       if (task._id === id) {
         specificTask = task
-      }
-    })
+      };
+    });
+    await this.props.updateTodo(specificTask, id);
+  };
 
-    fetch(`/api/tasks/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify(specificTask),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(err => console.error(err))
-  }
+  async addTask(e) {
+    e.preventDefault();
+    const title = this.state.modalTitle;
+    const description = this.state.modalDescription;
+    const formMessage = document.getElementById('formMessage');
+    const modalInput = document.getElementById('modalInput');
+
+    if (title === '') {
+      modalInput.style.border = '1px solid #9f3a38';
+      formMessage.classList.remove('hide');
+    } else {
+      this.switchModal();//Cierro el modal
+      await this.props.addTodo(title, description);
+    };
+  };
+
+  async fetchDelete(id) {
+    await this.props.removeTodo(id);
+  };
 
   handleClick(id, e) {
     const card = e.target;
@@ -69,15 +90,15 @@ export default class Todos extends React.Component {
         }
       } else {
         return task
-      }
+      };
     });
 
     this.setState({
       tasks: tasks
-    })
+    });
 
     this.fetchPut(tasks, id);
-  }
+  };
 
   editTask(id, e) {
     const tasks = this.state.tasks.map(task => {
@@ -88,13 +109,13 @@ export default class Todos extends React.Component {
         }
       } else {
         return task
-      }
+      };
     });
 
     this.setState({
       tasks: tasks
     });
-  }
+  };
 
   updateTask(id, e) {
     e.preventDefault();
@@ -109,7 +130,7 @@ export default class Todos extends React.Component {
         }
       } else {
         return task
-      }
+      };
     });
 
     this.setState({
@@ -117,7 +138,7 @@ export default class Todos extends React.Component {
     });
 
     this.fetchPut(tasks, id);
-  }
+  };
 
   changeProperties(id, e) {
     const tasks = this.state.tasks.map(task => {
@@ -133,43 +154,13 @@ export default class Todos extends React.Component {
         }
       } else {
         return task
-      }
-    })
+      };
+    });
 
     this.setState({
       tasks: tasks
-    })
-  }
-
-  addTask(e) {
-    e.preventDefault();
-    const title = this.state.modalTitle;
-    const description = this.state.modalDescription;
-    const formMessage = document.getElementById('formMessage');
-    const modalInput = document.getElementById('modalInput');
-
-    if (title === '') {
-      modalInput.style.border = '1px solid #9f3a38';
-      formMessage.classList.remove('hide');
-    } else {
-      console.log({ title, description })
-      this.switchModal();//Cierro el modal
-
-      fetch('/api/tasks', {
-        method: 'POST',
-        body: JSON.stringify({ title, description }),
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.error(err))
-
-      this.fetchData();
-    }
-  }
+    });
+  };
 
   changeState(e) {
     if (e.target.name === 'modalTitle') {
@@ -180,31 +171,17 @@ export default class Todos extends React.Component {
       this.setState({
         modalDescription: e.target.value
       })
-    }
-  }
-
-  fetchDelete(id) {
-    fetch(`/api/tasks/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(err => console.error(err))
-  }
+    };
+  };
 
   deleteTask(id) {
     const tasks = this.state.tasks.filter(task => task._id !== id);
-    console.log(tasks)
     this.setState({
       tasks: tasks
     });
 
     this.fetchDelete(id);
-  }
+  };
 
   switchModal() {
     console.log('funciono');
@@ -212,8 +189,8 @@ export default class Todos extends React.Component {
       modalOpen: !this.state.modalOpen,
       modalTitle: '',
       modalDescription: ''
-    })
-  }
+    });
+  };
 
   render() {
     return (
@@ -250,6 +227,8 @@ export default class Todos extends React.Component {
           </Card.Group>
         </Container>
       </section>
-    )
+    );
   };
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todos);

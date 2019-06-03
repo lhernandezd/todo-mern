@@ -6,7 +6,7 @@ const App = (props) => {
   return (
     <section className="App">
       <h1 className="App__title">Todo List</h1>
-      <Todos />
+      <Todos loadTodos={props.loadTodos} />
     </section>
   );
 };

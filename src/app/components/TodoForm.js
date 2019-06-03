@@ -24,6 +24,6 @@ const TodoForm = (props) => {
       </Card>
     </section>
   )
-}
+};
 
 export default TodoForm;

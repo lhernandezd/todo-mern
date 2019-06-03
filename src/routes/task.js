@@ -17,11 +17,11 @@ router.post('/', async (req, res) => {
   const task = new Task({
     title,
     description,
-    completed
+    //completed
   });
-  await task.save();
+  const saved = await task.save();
 
-  res.json({ message: 'Task saved' });
+  res.json({ message: 'Task saved', dt: saved });
 });
 
 router.put('/:id', async (req, res) => {
