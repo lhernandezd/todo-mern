@@ -15,7 +15,7 @@ const TodoCard = (props) => {
         </Card.Description>
       </Card.Content>
     </Card>
-  )
-}
+  );
+};
 
 export default TodoCard;
