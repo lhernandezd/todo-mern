@@ -4,7 +4,7 @@ import { Button, Icon, Modal, Header, Form, Message } from 'semantic-ui-react';
 
 const Menu = (props) => {
   const button = (
-    <Button basic color='black' size='large' animated='fade' onClick={props.switchModal}>
+    <Button size='large' animated='fade' onClick={props.switchModal}>
       <Button.Content visible>Add task</Button.Content>
       <Button.Content hidden> <Icon name='add' /> </Button.Content>
     </Button>
@@ -13,7 +13,7 @@ const Menu = (props) => {
   return (
     <div className='menu'>
       <div className='menu__item'>
-        <Modal trigger={button} open={props.modalOpen} closeIcon onClose={props.switchModal}>
+        <Modal size='tiny' trigger={button} open={props.modalOpen} closeIcon onClose={props.switchModal}>
           <Header icon='plus' content='Add Task' />
           <Modal.Content>
             <Form size='large' className='modalForm' onSubmit={props.handleAdd}>
@@ -31,7 +31,7 @@ const Menu = (props) => {
               </Form.Field>
               <Form.Field>
                 <label>Description</label>
-                <input name='modalDescription' onChange={props.handleChange} placeholder='Optional' />
+                <textarea rows="2" name='modalDescription' onChange={props.handleChange} placeholder='Optional' />
               </Form.Field>
               <Button type='submit' basic fluid color='green'>Create</Button>
             </Form>

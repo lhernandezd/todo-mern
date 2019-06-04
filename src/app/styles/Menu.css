@@ -5,24 +5,24 @@
 }
 
 .menu__info {
-  width: 20%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .info__text--completed {
+  margin: 0 10px;
   padding: 10px;
-  border: 1px solid green;
+  border: 1px solid #21ba45;
   border-radius: 5px;
-  color: green;
+  color: #21ba45;
 }
 
 .info__text--incompleted {
   padding: 10px;
-  border: 1px solid #9f3a38;
+  border: 1px solid #db2828;
   border-radius: 5px;
-  color: #9f3a38;
+  color: #db2828;
 }
 
 .hide {

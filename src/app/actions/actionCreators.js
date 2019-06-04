@@ -74,9 +74,7 @@ export function loadTodos() {
       .then(data => {
         const newData = data.map(item => {
           return {
-            ...item,
-            formTitle: item.title,
-            formDescription: item.description
+            ...item
           }
         });
         dispatch({ type: 'LOAD_TASKS', tasks: newData })

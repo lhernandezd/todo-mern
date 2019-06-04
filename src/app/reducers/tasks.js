@@ -5,9 +5,7 @@ const tasksReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_TASK':
       const task = {
-        ...action.payload,
-        formTitle: action.payload.title,
-        formDescription: action.payload.description
+        ...action.payload
       }
       return [
         ...state,

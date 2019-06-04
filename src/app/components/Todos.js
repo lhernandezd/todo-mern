@@ -119,13 +119,14 @@ class Todos extends React.Component {
 
   updateTask(id, e) {
     e.preventDefault();
-
+    const formTitle = document.getElementById('formTitle');
+    const formDescription = document.getElementById('formDescription');
     const tasks = this.state.tasks.map(task => {
       if (task._id === id) {
         return {
           ...task,
-          title: task.formTitle,
-          description: task.formDescription,
+          title: formTitle.value,
+          description: formDescription.value,
           edit: false
         }
       } else {
@@ -140,23 +141,17 @@ class Todos extends React.Component {
     this.fetchPut(tasks, id);
   };
 
-  changeProperties(id, e) {
+  switchEditState(id, e) {
     const tasks = this.state.tasks.map(task => {
-      if (task._id === id && e.target.name === 'title') {
+      if (task._id === id) {
         return {
           ...task,
-          formTitle: e.target.value
-        }
-      } else if (task._id === id && e.target.name === 'description') {
-        return {
-          ...task,
-          formDescription: e.target.value
+          edit: false
         }
       } else {
         return task
       };
     });
-
     this.setState({
       tasks: tasks
     });
@@ -184,7 +179,6 @@ class Todos extends React.Component {
   };
 
   switchModal() {
-    console.log('funciono');
     this.setState({
       modalOpen: !this.state.modalOpen,
       modalTitle: '',
@@ -202,7 +196,7 @@ class Todos extends React.Component {
             modalOpen={this.state.modalOpen}
             switchModal={() => this.switchModal()}
           />
-          <Card.Group className="todoList" centered itemsPerRow={3}>
+          <Card.Group className="todoList" centered stackable itemsPerRow={3}>
             {this.state.tasks.map((task, index) =>
               !task.edit ?
                 <TodoCard
@@ -220,8 +214,8 @@ class Todos extends React.Component {
                   title={task.title}
                   description={task.description}
                   completed={task.completed}
-                  handleChange={(e) => this.changeProperties(task._id, e)}
                   handleUpdate={(e) => this.updateTask(task._id, e)}
+                  handleSwitch={(e) => this.switchEditState(task._id, e)}
                 />
             )}
           </Card.Group>
