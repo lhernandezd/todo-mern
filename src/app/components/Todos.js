@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Card } from 'semantic-ui-react';
 import Menu from './Menu';
 import TodoCard from './TodoCard';
-import TodoForm from './TodoForm';
+import '../styles/Todos.css';
 import { connect } from 'react-redux';
 import { loadTodos, updateTodo, addTodo, removeTodo } from '../actions/actionCreators';
 
@@ -29,7 +29,8 @@ class Todos extends React.Component {
       modalOpen: false,
       modalTitle: '',
       modalDescription: '',
-      tasks: []
+      tasks: [],
+      deleteModal: false
     };
   };
 
@@ -93,10 +94,6 @@ class Todos extends React.Component {
       };
     });
 
-    this.setState({
-      tasks: tasks
-    });
-
     this.fetchPut(tasks, id);
   };
 
@@ -105,7 +102,7 @@ class Todos extends React.Component {
       if (task._id === id) {
         return {
           ...task,
-          edit: true
+          edit: !task.edit
         }
       } else {
         return task
@@ -134,27 +131,7 @@ class Todos extends React.Component {
       };
     });
 
-    this.setState({
-      tasks: tasks
-    });
-
     this.fetchPut(tasks, id);
-  };
-
-  switchEditState(id, e) {
-    const tasks = this.state.tasks.map(task => {
-      if (task._id === id) {
-        return {
-          ...task,
-          edit: false
-        }
-      } else {
-        return task
-      };
-    });
-    this.setState({
-      tasks: tasks
-    });
   };
 
   changeState(e) {
@@ -170,12 +147,14 @@ class Todos extends React.Component {
   };
 
   deleteTask(id) {
-    const tasks = this.state.tasks.filter(task => task._id !== id);
-    this.setState({
-      tasks: tasks
-    });
-
+    this.deleteModal();
     this.fetchDelete(id);
+  };
+
+  deleteModal() {
+    this.setState({
+      deleteModal: !this.state.deleteModal
+    });
   };
 
   switchModal() {
@@ -198,25 +177,20 @@ class Todos extends React.Component {
           />
           <Card.Group className="todoList" centered stackable itemsPerRow={3}>
             {this.state.tasks.map((task, index) =>
-              !task.edit ?
-                <TodoCard
-                  key={index}
-                  title={task.title}
-                  description={task.description}
-                  completed={task.completed}
-                  date={task.updatedAt.substring(0, 10)}
-                  handleClick={(e) => this.handleClick(task._id, e)}
-                  handleEdit={(e) => this.editTask(task._id, e)}
-                  handleDelete={() => this.deleteTask(task._id)}
-                /> :
-                <TodoForm
-                  key={index}
-                  title={task.title}
-                  description={task.description}
-                  completed={task.completed}
-                  handleUpdate={(e) => this.updateTask(task._id, e)}
-                  handleSwitch={(e) => this.switchEditState(task._id, e)}
-                />
+              <TodoCard
+                key={index}
+                test={task.edit}
+                title={task.title}
+                description={task.description}
+                completed={task.completed}
+                date={task.updatedAt.substring(0, 10)}
+                deleteModal={this.state.deleteModal}
+                handleClick={(e) => this.handleClick(task._id, e)}
+                handleEdit={(e) => this.editTask(task._id, e)}
+                handleDelete={() => this.deleteTask(task._id)}
+                handleDeleteModal={() => this.deleteModal()}
+                handleUpdate={(e) => this.updateTask(task._id, e)}
+              />
             )}
           </Card.Group>
         </Container>

@@ -26,12 +26,10 @@ const Menu = (props) => {
                 </Message>
               </Form.Field>
               <Form.Field>
-                <label>Title</label>
-                <input id='modalInput' name='modalTitle' onChange={props.handleChange} />
+                <Form.Input label="Title" id='modalInput' name='modalTitle' onChange={props.handleChange} />
               </Form.Field>
               <Form.Field>
-                <label>Description</label>
-                <textarea rows="2" name='modalDescription' onChange={props.handleChange} placeholder='Optional' />
+                <Form.TextArea label="Description" rows="2" name='modalDescription' onChange={props.handleChange} placeholder='Optional' />
               </Form.Field>
               <Button type='submit' basic fluid color='green'>Create</Button>
             </Form>
