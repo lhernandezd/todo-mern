@@ -27,7 +27,6 @@ const tasksReducer = (state = initialState, action) => {
       return tasks;
     case 'LOAD_TASKS':
       return [
-        ...state,
         ...action.tasks
       ]
     default:

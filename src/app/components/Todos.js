@@ -1,10 +1,10 @@
 import React from 'react';
-import { Container, Card } from 'semantic-ui-react';
+import { Container, Card, Button, Icon } from 'semantic-ui-react';
 import Menu from './Menu';
 import TodoCard from './TodoCard';
 import '../styles/Todos.css';
 import { connect } from 'react-redux';
-import { loadTodos, updateTodo, addTodo, removeTodo } from '../actions/actionCreators';
+import { loadTodos, updateTodo, addTodo, removeTodo, loadDataByCompleted } from '../actions/actionCreators';
 
 function mapStateToProps(state) {
   return {
@@ -17,7 +17,8 @@ function mapDispatchToProps(dispatch) {
     loadTodos: () => dispatch(loadTodos()),
     updateTodo: (task, id) => dispatch(updateTodo(task, id)),
     addTodo: (title, description) => dispatch(addTodo(title, description)),
-    removeTodo: (id) => dispatch(removeTodo(id))
+    removeTodo: (id) => dispatch(removeTodo(id)),
+    loadDataByCompleted: (completed) => dispatch(loadDataByCompleted(completed))
   };
 };
 
@@ -165,6 +166,15 @@ class Todos extends React.Component {
     });
   };
 
+  getByCompleted(e, data) {
+    if (data.value === 'all') {
+      this.props.loadTodos();
+    } else {
+      const bool = data.value === 'incompleted' ? false : true;
+      this.props.loadDataByCompleted(bool);
+    };
+  };
+
   render() {
     return (
       <section className="todos">
@@ -174,24 +184,34 @@ class Todos extends React.Component {
             handleChange={(e) => this.changeState(e)}
             modalOpen={this.state.modalOpen}
             switchModal={() => this.switchModal()}
+            handleSelection={(e, data) => this.getByCompleted(e, data)}
           />
           <Card.Group className="todoList" centered stackable itemsPerRow={3}>
-            {this.state.tasks.map((task, index) =>
-              <TodoCard
-                key={index}
-                test={task.edit}
-                title={task.title}
-                description={task.description}
-                completed={task.completed}
-                date={task.updatedAt.substring(0, 10)}
-                deleteModal={this.state.deleteModal}
-                handleClick={(e) => this.handleClick(task._id, e)}
-                handleEdit={(e) => this.editTask(task._id, e)}
-                handleDelete={() => this.deleteTask(task._id)}
-                handleDeleteModal={() => this.deleteModal()}
-                handleUpdate={(e) => this.updateTask(task._id, e)}
-              />
-            )}
+            {this.state.tasks.length < 1 ?
+              <div className="noResult">
+                <h3>No results found</h3>
+                <Button onClick={() => this.switchModal()}>
+                  <Icon name='add' />
+                  Add new task
+                </Button>
+              </div>
+              :
+              this.state.tasks.map((task, index) =>
+                <TodoCard
+                  key={index}
+                  test={task.edit}
+                  title={task.title}
+                  description={task.description}
+                  completed={task.completed}
+                  date={task.updatedAt.substring(0, 10)}
+                  deleteModal={this.state.deleteModal}
+                  handleClick={(e) => this.handleClick(task._id, e)}
+                  handleEdit={(e) => this.editTask(task._id, e)}
+                  handleDelete={() => this.deleteTask(task._id)}
+                  handleDeleteModal={() => this.deleteModal()}
+                  handleUpdate={(e) => this.updateTask(task._id, e)}
+                />
+              )}
           </Card.Group>
         </Container>
       </section>

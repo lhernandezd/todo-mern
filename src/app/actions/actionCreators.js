@@ -83,3 +83,21 @@ export function loadTodos() {
       .catch(err => console.error(err))
   };
 };
+
+//Load data by completed
+export function loadDataByCompleted(bool) {
+  return async (dispatch) => {
+    await fetch(`/api/tasks/query/?completed=${bool}`)
+      .then(res => res.json())
+      .then(data => {
+        const newData = data.map(item => {
+          return {
+            ...item
+          }
+        });
+        dispatch({ type: 'LOAD_TASKS', tasks: newData })
+        console.log(newData)
+      })
+      .catch(err => console.error(err))
+  };
+};

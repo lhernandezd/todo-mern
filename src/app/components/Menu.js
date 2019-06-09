@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/Menu.css';
-import { Button, Icon, Modal, Header, Form, Message } from 'semantic-ui-react';
+import { Button, Icon, Modal, Header, Form, Message, Dropdown } from 'semantic-ui-react';
 
 const Menu = (props) => {
   const button = (
@@ -9,7 +9,26 @@ const Menu = (props) => {
       <Button.Content hidden> <Icon name='add' /> </Button.Content>
     </Button>
   );
-
+  const statusOptions = [
+    {
+      key: 'All',
+      text: 'All',
+      value: 'all',
+      label: { color: 'grey', empty: true, circular: true }
+    },
+    {
+      key: 'Completed',
+      text: 'Completed',
+      value: 'completed',
+      label: { color: 'green', empty: true, circular: true }
+    },
+    {
+      key: 'Incompleted',
+      text: 'Incompleted',
+      value: 'incompleted',
+      label: { color: 'red', empty: true, circular: true }
+    }
+  ];
   return (
     <div className='menu'>
       <div className='menu__item'>
@@ -36,11 +55,12 @@ const Menu = (props) => {
           </Modal.Content>
         </Modal>
       </div>
-      <div className='menu__info'>
-        <span className='info__icon'><Icon name='info circle' />:</span>
-        <span className='info__text--completed'>Completed</span>
-        <span className='info__text--incompleted'>Incompleted</span>
-      </div>
+      <Dropdown
+        selection
+        options={statusOptions}
+        defaultValue={statusOptions[0].value}
+        onChange={props.handleSelection}
+      />
     </div>
   );
 };

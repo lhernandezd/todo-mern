@@ -20,7 +20,7 @@ const TodoCard = (props) => {
             {props.test ?
               <Fragment>
                 <Input id='formTitle' size='small' transparent defaultValue={props.title} />
-                <Label color='green' attached='top right'>Edit</Label>
+                <Label color='blue' attached='top right'>Edit</Label>
               </Fragment>
               :
               props.title
@@ -39,7 +39,7 @@ const TodoCard = (props) => {
           <Icon link name='selected radio' onClick={props.handleClick} />
           <Icon link name='trash alternate' onClick={props.handleDeleteModal} />
           {props.test ?
-            <Icon link name='save' color='green' onClick={props.handleUpdate} />
+            <Icon link name='save' color='blue' onClick={props.handleUpdate} />
             :
             <Icon link name='edit' onClick={props.handleEdit} />
           }

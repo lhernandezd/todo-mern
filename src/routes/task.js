@@ -7,6 +7,11 @@ router.get('/', async (req, res) => {
   res.json(allTasks);
 });
 
+router.get('/query', async (req, res) => {
+  const tasks = await Task.find({ completed: req.query.completed });
+  res.json(tasks);
+});
+
 router.get('/:id', async (req, res) => {
   const task = await Task.findById({ _id: req.params.id });
   res.json(task);
