@@ -22,7 +22,7 @@
     "dotenv": "^6.1.0",
     "event-stream": "^4.0.1",
     "express": "^4.16.4",
-    "mongoose": "^5.3.12",
+    "mongoose": "^5.7.5",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-redux": "^6.0.0",
